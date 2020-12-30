@@ -1,2 +1,2 @@
-/faces/*.jpg
-!/faces/obama.jpg
+scripts/faces/*.jpg
+!scripts/faces/obama.jpg
