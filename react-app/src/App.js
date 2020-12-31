@@ -1,25 +1,67 @@
-import logo from './logo.svg';
+
+import React, { useState } from 'react';
 import './App.css';
+import { Button, Grid, Toolbar, IconButton, Typography, AppBar  } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import HomeScreen from './HomeScreen'
+import NewUserScreen from './NewUserScreen'
+import GetDrinkScreen from './GetDrinkScreen'
+import ChooseDrinkScreen from './ChooseDrinkScreen'
+import SimpleMenu from './SimpleMenu'
+import CraftScreen from './CraftScreen'
 
 function App() {
+  const [screen, setScreen] = useState('home');
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <TopBar screen={screen} setScreen={setScreen} />
+      {chooseScreen(screen, setScreen)}
+    </>
   );
+}
+
+function chooseScreen(screen, setScreen) {
+  switch (screen) {
+    case 'home':
+      return <HomeScreen setScreen={setScreen} />
+    case 'new':
+      return <NewUserScreen />
+    case 'favorite':
+      return <GetDrinkScreen drink='Your favorite drink' qr='f' />
+    case 'previous':
+      return <GetDrinkScreen drink='Your previous drink' qr='p' />
+    case 'choose':
+      return <ChooseDrinkScreen />
+    case 'craft':
+      return <CraftScreen />
+    default:
+      return
+  }
+}
+
+function TopBar({ screen, setScreen }) {
+  return <AppBar position="static">
+    <Toolbar>
+      <Grid
+        container
+        direction="row"
+        justify="space-between"
+        alignItems="center"
+      >
+        <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => setScreen('home')} disabled={screen === 'home'}>
+          <ArrowBackIcon />
+        </IconButton>
+        <Grid item xs={4}>
+          <Typography variant="h6" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            QRtender
+          </Typography>
+        </Grid>
+        <SimpleMenu setScreen={setScreen} />
+      </ Grid>
+    </Toolbar>
+    
+  </AppBar>
 }
 
 export default App;

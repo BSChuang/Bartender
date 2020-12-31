@@ -43,14 +43,12 @@ def fParallelFace(q):
         if process_this_frame:
 
             # QR Code reading
-            qrText = ''
             try:
                 qrText = qrCodeDetector.detectAndDecode(frame)[0]
                 if qrText != '':
                     q.put({'process': 'qr', 'args': qrText})
 
                     if qrText[0] == 'n':
-                        print("HERE")
                         newUser = qrText[1:]
             except:
                 pass
@@ -78,8 +76,12 @@ def fParallelFace(q):
                     print("NEW USER")
                     if len(face_recognition.face_encodings(frame)) > 0:
                         newFaceEncoding = face_recognition.face_encodings(frame)[0]
-                        known_face_encodings.append(newFaceEncoding)
-                        known_face_names.append(newUser)
+                        if newUser in known_face_names:
+                            index = known_face_names.index(newUser)
+                            known_face_encodings[index] = newFaceEncoding
+                        else:
+                            known_face_names.append(newUser)
+                            known_face_encodings.append(newFaceEncoding)
 
                         cv2.imwrite(f'faces/{newUser}.jpg', frame)
                         newUser = None
