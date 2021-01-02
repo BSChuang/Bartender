@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/Bartender/static/css/main.ab7136cd.chunk.css",
-    "main.js": "/Bartender/static/js/main.92366eb6.chunk.js",
-    "main.js.map": "/Bartender/static/js/main.92366eb6.chunk.js.map",
-    "runtime-main.js": "/Bartender/static/js/runtime-main.c623f6e6.js",
-    "runtime-main.js.map": "/Bartender/static/js/runtime-main.c623f6e6.js.map",
-    "static/js/2.18643d03.chunk.js": "/Bartender/static/js/2.18643d03.chunk.js",
-    "static/js/2.18643d03.chunk.js.map": "/Bartender/static/js/2.18643d03.chunk.js.map",
-    "static/js/3.aeb4a928.chunk.js": "/Bartender/static/js/3.aeb4a928.chunk.js",
-    "static/js/3.aeb4a928.chunk.js.map": "/Bartender/static/js/3.aeb4a928.chunk.js.map",
+    "main.js": "/Bartender/static/js/main.ef89f1ad.chunk.js",
+    "main.js.map": "/Bartender/static/js/main.ef89f1ad.chunk.js.map",
+    "runtime-main.js": "/Bartender/static/js/runtime-main.1baac5ec.js",
+    "runtime-main.js.map": "/Bartender/static/js/runtime-main.1baac5ec.js.map",
+    "static/js/2.96e0391b.chunk.js": "/Bartender/static/js/2.96e0391b.chunk.js",
+    "static/js/2.96e0391b.chunk.js.map": "/Bartender/static/js/2.96e0391b.chunk.js.map",
+    "static/js/3.b4eea59b.chunk.js": "/Bartender/static/js/3.b4eea59b.chunk.js",
+    "static/js/3.b4eea59b.chunk.js.map": "/Bartender/static/js/3.b4eea59b.chunk.js.map",
     "index.html": "/Bartender/index.html",
     "static/css/main.ab7136cd.chunk.css.map": "/Bartender/static/css/main.ab7136cd.chunk.css.map",
-    "static/js/2.18643d03.chunk.js.LICENSE.txt": "/Bartender/static/js/2.18643d03.chunk.js.LICENSE.txt"
+    "static/js/2.96e0391b.chunk.js.LICENSE.txt": "/Bartender/static/js/2.96e0391b.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.c623f6e6.js",
-    "static/js/2.18643d03.chunk.js",
+    "static/js/runtime-main.1baac5ec.js",
+    "static/js/2.96e0391b.chunk.js",
     "static/css/main.ab7136cd.chunk.css",
-    "static/js/main.92366eb6.chunk.js"
+    "static/js/main.ef89f1ad.chunk.js"
   ]
 }
