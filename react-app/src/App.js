@@ -1,8 +1,7 @@
 
 import React, { useState } from 'react';
 import './App.css';
-import { Button, Grid, Toolbar, IconButton, Typography, AppBar  } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
+import { Grid, Toolbar, IconButton, Typography, AppBar } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import HomeScreen from './HomeScreen'
 import NewUserScreen from './NewUserScreen'
@@ -10,6 +9,7 @@ import GetDrinkScreen from './GetDrinkScreen'
 import ChooseDrinkScreen from './ChooseDrinkScreen'
 import SimpleMenu from './SimpleMenu'
 import CraftScreen from './CraftScreen'
+import ConfigureScreen from './ConfigureScreen'
 
 function App() {
   const [screen, setScreen] = useState('home');
@@ -35,6 +35,10 @@ function chooseScreen(screen, setScreen) {
       return <ChooseDrinkScreen />
     case 'craft':
       return <CraftScreen />
+    case 'configure':
+      return <ConfigureScreen />
+    case 'clean':
+      return <GetDrinkScreen drink='Clean' qr='c' />
     default:
       return
   }

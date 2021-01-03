@@ -12,9 +12,11 @@ export default function SimpleMenu({setScreen}) {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleClose = () => {
+    const handleClose = (event, val) => {
+        if (val != null) {
+            setScreen(val)
+        }
         setAnchorEl(null);
-        setScreen('configure')
     };
 
     return (
@@ -27,9 +29,11 @@ export default function SimpleMenu({setScreen}) {
                 anchorEl={anchorEl}
                 keepMounted
                 open={Boolean(anchorEl)}
-                onClose={handleClose}
+                onClose={(event) => handleClose(event, null)}
             >
-                <MenuItem onClick={handleClose}>Configure</MenuItem>
+                <MenuItem onClick={(event) => handleClose(event, 'configure')}>Configure</MenuItem>
+                <MenuItem onClick={(event) => handleClose(event, 'clean')}>Clean</MenuItem>
+                <MenuItem onClick={(event) => handleClose(event, null)}>Built by Ben Chuang</MenuItem>
             </Menu>
         </div>
     );

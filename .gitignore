@@ -1,3 +1,3 @@
 scripts/faces/*.jpg
 !scripts/faces/obama.jpg
-usuals.json
+favorites.json

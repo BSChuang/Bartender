@@ -20,11 +20,16 @@ if __name__ == '__main__':
 
     q = Queue()
     p1 = Process(target=B.g, args=(q,))
-    p2 = Process(target=C.g, args=(q,))
+    #p2 = Process(target=C.g, args=(q,))
     p1.start()
-    p2.start()
-    while True:
-        print('.')
-        time.sleep(1)
-        if not q.empty():
-            print(q.get())
+    #p2.start()
+    q.put('hi back')
+    time.sleep(2)
+    q.put('another')
+    time.sleep(2)
+    q.put('stop')
+    
+    #while True:
+        #if not q.empty():
+            #print('a', q.get())
+            

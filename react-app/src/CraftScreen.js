@@ -39,7 +39,7 @@ class CraftScreen extends React.Component {
     }
 
     makeIngredient(index, handleChange) {
-        return <Grid item xs={12} style={{ padding: '10px', height: '20vh' }}>
+        return <Grid item xs={12} style={{ padding: '5px' }}>
             <Paper elevation={3} >
                 <Typography variant="h6" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     Ingredient {index + 1}
@@ -48,7 +48,7 @@ class CraftScreen extends React.Component {
                 <div>
                     <FormControl style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <Select
-                            style={{ minWidth: '10%' }}
+                            style={{ minWidth: '50%' }}
                             name={`ingredient${index}`}
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
@@ -67,11 +67,11 @@ class CraftScreen extends React.Component {
                 <div>
                     <FormControl style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <Typography id="continuous-slider" gutterBottom>
-                            Quantity (10 = 1 ounce)
+                            Quantity (10 = ~1 ounce)
                     </Typography>
                         <Slider
                             name={`quantity${index}`}
-                            defaultValue={20}
+                            defaultValue={50}
                             aria-labelledby="discrete-slider-custom"
                             valueLabelDisplay="auto"
                             onChange={(event, val) => handleChange(`quantity${index}`, val)}
@@ -125,6 +125,7 @@ class CraftScreen extends React.Component {
                             <TextField
                                 id="standard-basic"
                                 label="Drink name"
+                                style={{ minWidth: '75%' }}
                                 onChange={(event) => handleChange('name', event.target.value)}
                             />
                         </FormControl>
@@ -151,7 +152,7 @@ class CraftScreen extends React.Component {
                 </Button>
             </ Grid>
 
-            <QRCode value={qr} style={{ width: '95vw', height: '95vw' }} />
+            <QRCode value={`s${qr}`} style={{ width: '95vw', height: '95vw', margin:'10px' }} />
         </Grid>
     }
 }

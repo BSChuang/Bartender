@@ -16,6 +16,10 @@ CURRENT IDEA:
 Uses speech OR QR Codes to configure and decide drinks
 Facial recognition to save and load favorite drinks and get previous drink
 
+Why not bluetooth app?
+Imagine your friends are over. They want to use your fancy new machine, but they have to download an app first! That's too much work, they want a drink and they want it now!
+Going to a webpage is much more user friendly, updatable, and takes up no space on their phone.
+
 QR Code Rules:
     Get drink: "g[drink name]"
     Favorite drink: "f[drink name]"
@@ -40,9 +44,9 @@ PULL drinks.json/ingredients.json from github (easiest way to keep updated) when
 Make sure to combine with saved drinks.json/ingredients to keep crafted drinks
 
 TODO:
-Assign ingredients to each slot
-Choose drink by name (error when drink not in system)
-Error when drink ingredients do not exist
+Custom drink: Choose drink by name (error when drink not in system)
+Filter for drink list using possible ingredients
+
 Build the actual thing 
 
 Main.py runs processes FR, SR, GUI, which all communicate with Main.py

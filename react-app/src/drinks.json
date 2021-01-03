@@ -1,14 +1,21 @@
 {
+    "vodka": {
+        "vodka": 10
+    },
     "moscow mule": {
-        "vodka": 5,
+        "vodka": 10,
         "ginger beer": 10
     },
     "screwdriver": {
-        "vodka": 4,
+        "vodka": 10,
         "orange juice": 10
     },
     "bay breeze": {
-        "vodka": 5,
+        "vodka": 10,
         "fruit juice": 12
+    },
+    "margarita": {
+        "tequila": 10,
+        "margarita mix": 5
     }
 }

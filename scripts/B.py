@@ -1,13 +1,44 @@
 from multiprocessing import Process,Pipe
+from threading import Thread
 import speech_recognition as sr
 import time
 
+done = [True] * 6
+
 def g(q):
-    msg = "Hello"
     while True:
-        time.sleep(1.5)
-        q.put({'function': 'B', 'arg': 'hello'})
-    #child_conn.close()
+        if not q.empty():
+            msg = q.get()
+            print(msg)
+
+            if msg == 'another' and sum(done) < len(done):
+                print('current pouring')
+            elif msg == 'stop':
+                stop()
+            else:
+                for i in range(0, 5):
+                    thr = Thread(target=timer, args=(i, i + 5))
+                    thr.start()
+
+def stop():
+    global done
+    print('stopping all')
+    done = [True] * 6
+    # set all pins low
+
+def timer(pin, quantity):
+    done[pin] = False
+    # set pin high
+    print('pouring from', pin, 'for', quantity, 'seconds')
+    time.sleep(quantity)
+    print(done)
+    if not done[pin]:
+        print('done pouring', pin)
+        done[pin] = True
+        # set pin low
+    else:
+        print('already done', pin)
+
 
 def recognize_speech_from_mic(recognizer, microphone):
     """Transcribe speech from recorded from `microphone`.
