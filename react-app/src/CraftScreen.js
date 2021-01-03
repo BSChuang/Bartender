@@ -117,7 +117,7 @@ class CraftScreen extends React.Component {
             <Grid item xs={12} style={{ padding: '10px' }}>
                 <Paper elevation={3} >
                     <Typography variant="h6" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        Craft your own!
+                        Craft your own
                     </Typography>
 
                     <div style={{ padding: '10px' }}>

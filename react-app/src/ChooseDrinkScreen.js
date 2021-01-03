@@ -13,12 +13,12 @@ export default function ChooseDrinkScreen() {
         setSearch(e.target.value)
     }
 
-    const [filterIngredients, setFilterIngredients] = useState('')
+    const [filterIngredients, setFilterIngredients] = useState([])
     const handleIngredientChange = (e, value) => {
         setFilterIngredients(value)
     }
 
-    const [option, setOption] = useState('only')
+    const [option, setOption] = useState('every')
     const handleOptionChange = (e, value) => {
         setOption(value)
     }
@@ -63,17 +63,17 @@ export default function ChooseDrinkScreen() {
                 <Grid item xs={12}>
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <FormControl component="fieldset">
-                            <RadioGroup row aria-label="position" name="position" defaultValue="only" style={{ display: 'flex' }} onChange={handleOptionChange}>
+                            <RadioGroup row aria-label="position" name="position" defaultValue="every" style={{ display: 'flex' }} onChange={handleOptionChange}>
                                 <FormControlLabel
-                                    value="only"
+                                    value="every"
                                     control={<Radio color="primary" />}
-                                    label="Only"
+                                    label="Every"
                                     labelPlacement="start"
                                 />
                                 <FormControlLabel
-                                    value="contains"
+                                    value="some"
                                     control={<Radio color="primary" />}
-                                    label="Contains"
+                                    label="Some"
                                     labelPlacement="start"
                                 />
                             </RadioGroup>
@@ -105,11 +105,13 @@ export default function ChooseDrinkScreen() {
 
 function filterDrink(drink, search, ingredients, option) {
     var hasSearch = drink.includes(search.toLowerCase())
-    var hasIngredient = null
-    if (option == 'only') {
-        hasIngredient = ingredients.every(ingredient => Object.keys(drinksDict[drink]).includes(ingredient))
-    } else {
-        hasIngredient = ingredients.some(ingredient => Object.keys(drinksDict[drink]).includes(ingredient))
+    var hasIngredient = true
+    if (ingredients.length != 0) {
+        if (option == 'only') {
+            hasIngredient = ingredients.every(ingredient => Object.keys(drinksDict[drink]).includes(ingredient))
+        } else {
+            hasIngredient = ingredients.some(ingredient => Object.keys(drinksDict[drink]).includes(ingredient))
+        }
     }
     return hasSearch && hasIngredient
 }
