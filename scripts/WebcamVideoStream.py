@@ -1,12 +1,20 @@
 # import the necessary packages
 from threading import Thread
 import cv2
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+
 class WebcamVideoStream:
 	def __init__(self, src=0):
 		# initialize the video camera stream and read the first frame
 		# from the stream
-		self.stream = cv2.VideoCapture(src)
-		(self.grabbed, self.frame) = self.stream.read()
+        self.camera = PiCamera()
+        self.camera.resolution = (640, 480)
+        self.camera.framerate = 32
+        self.rawCapture = PiRGBArray(camera, size=(640, 480))
+
+		#self.stream = cv2.VideoCapture(src)
+		#(self.grabbed, self.frame) = self.stream.read()
 		# initialize the variable used to indicate if the thread should
 		# be stopped
 		self.stopped = False
@@ -15,13 +23,17 @@ class WebcamVideoStream:
 		Thread(target=self.update, args=()).start()
 		return self
 	def update(self):
+        for frame in self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True):
+	        # grab the raw NumPy array representing the image, then initialize the timestamp
+	        # and occupied/unoccupied text
+	        self.frame = frame.array
 		# keep looping infinitely until the thread is stopped
-		while True:
+		""" while True:
 			# if the thread indicator variable is set, stop the thread
 			if self.stopped:
 				return
 			# otherwise, read the next frame from the stream
-			(self.grabbed, self.frame) = self.stream.read()
+			(self.grabbed, self.frame) = self.stream.read() """
 	def read(self):
 		# return the frame most recently read
 		return self.frame
