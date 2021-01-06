@@ -101,7 +101,7 @@ if __name__ == '__main__':
     initJSON()
     q = Queue()
 
-    if True:
+    if False:
         speechProcess = Process(target=fParallelSpeech, args=(q,))
         speechProcess.start()
 

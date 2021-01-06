@@ -30,7 +30,7 @@ def fParallelFace(q):
     face_locations = []
     face_encodings = []
     face_names = []
-    process_this_frame = True
+    process_this_frame = 0
     qrCodeDetector = cv2.QRCodeDetector()
 
     newUser = None
@@ -40,7 +40,7 @@ def fParallelFace(q):
         rgb_small_frame = small_frame[:, :, ::-1]
 
         # Only process every other frame of video to save time
-        if process_this_frame:
+        if process_this_frame % 10 == 0:
 
             # QR Code reading
             try:
@@ -96,7 +96,7 @@ def fParallelFace(q):
 
                 q.put({'process': 'face', 'args': name})
 
-        process_this_frame = not process_this_frame
+        process_this_frame = (process_this_frame % 10) + 1
         
         # Display the results
         for (top, right, bottom, left), name in zip(face_locations, face_names):

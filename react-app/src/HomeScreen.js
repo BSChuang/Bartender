@@ -13,7 +13,7 @@ export default function HomeScreen(props) {
 }
 
 function MainButton({ buttonName, buttonAction, setScreen }) {
-    return <Grid item xs={12} style={{ padding: '5px' }}>
+    return <Grid item xs={12} style={{ padding: '1%' }}>
       <Button variant="contained" color="primary"
         onClick={() => setScreen(buttonAction)}
         style={{ width: '100%', height: '100%' }}>

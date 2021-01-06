@@ -50,20 +50,18 @@ class ConfigureScreen extends React.Component {
                     <Grid item xs={12} style={{ padding: '10px' }}>
                         <FormControl style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <Select
-                                style={{ minWidth: '50%' }}
+                                style={{ minWidth: '75%' }}
                                 name={`ingredient${index}`}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={this.state[`ingredient${index}`]}
                                 onChange={(event) => handleChange(event.target.name, event.target.value)}
-                                autoWidth
-                                min
                             >
                                 {this.ingredients.map((ingredient) => {
                                     return <MenuItem value={ingredient}>{capitalize(ingredient)}</MenuItem>
                                 })}
                             </ Select>
-                            <FormHelperText>Ingredient {index + 1}</FormHelperText>
+                            <FormHelperText>Pump {index + 1}</FormHelperText>
                         </FormControl>
                     </Grid>)
             }

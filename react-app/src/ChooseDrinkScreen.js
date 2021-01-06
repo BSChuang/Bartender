@@ -86,12 +86,14 @@ export default function ChooseDrinkScreen() {
                 {
                     search == '' && filterIngredients.length == 0 ?
                         <>
-                            <Grid item xs={6} style={{ padding: '0.2%', height: '25vh' }}>
+                            <Grid item xs={6} style={{ padding: '1%', height: '25vh' }}>
                                 <Button variant="contained" color="primary"
                                     onClick={() => setDrink('Custom')}
                                     style={{ width: '100%', height: '100%' }}>
-                                    Custom Drink
-                            </Button>
+                                    <Box fontWeight='fontWeightBold' fontSize={20}>
+                                        Custom Drink
+                                    </Box>
+                                </Button>
                             </Grid>
                             {Object.keys(drinksDict).sort().map(drink => <DrinkButton drinkName={drink} setDrink={setDrink} />)}
                         </>
@@ -107,7 +109,7 @@ function filterDrink(drink, search, ingredients, option) {
     var hasSearch = drink.includes(search.toLowerCase())
     var hasIngredient = true
     if (ingredients.length != 0) {
-        if (option == 'only') {
+        if (option == 'every') {
             hasIngredient = ingredients.every(ingredient => Object.keys(drinksDict[drink]).includes(ingredient))
         } else {
             hasIngredient = ingredients.some(ingredient => Object.keys(drinksDict[drink]).includes(ingredient))
@@ -124,21 +126,22 @@ function capitalize(text) {
 }
 
 function DrinkButton({ drinkName, setDrink }) {
-    return <Grid item xs={6} style={{ padding: '0.2%', height: '25vh' }}>
+    return <Grid item xs={6} style={{ padding: '1%', height: '25vh' }}>
         <Button variant="contained" color="primary"
             onClick={() => setDrink(drinkName)}
             style={{ width: '100%', height: '100%' }}>
             <div>
                 <div>
-                    {drinkName}
+                    <Box fontWeight='fontWeightBold' fontSize={20}>
+                        {drinkName}
+                    </Box>
+
                 </div>
                 <br />
-                <Box fontStyle='italic'>
-                    <Typography variant="caption" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        {
-                            Object.keys(drinksDict[drinkName]).map(drink => capitalize(drink)).join(', ')
-                        }
-                    </Typography>
+                <Box fontStyle='oblique' fontSize={10}>
+                    {
+                        Object.keys(drinksDict[drinkName]).map(drink => capitalize(drink)).join(', ')
+                    }
                 </Box>
             </div>
         </Button>
