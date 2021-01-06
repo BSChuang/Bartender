@@ -1,3 +1,4 @@
 scripts/faces/*.jpg
 !scripts/faces/obama.jpg
 favorites.json
+scripts/__pycache__/
