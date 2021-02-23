@@ -67,13 +67,13 @@ export default function ChooseDrinkScreen() {
                                 <FormControlLabel
                                     value="every"
                                     control={<Radio color="primary" />}
-                                    label="Every"
+                                    label="All"
                                     labelPlacement="start"
                                 />
                                 <FormControlLabel
                                     value="some"
                                     control={<Radio color="primary" />}
-                                    label="Some"
+                                    label="Any"
                                     labelPlacement="start"
                                 />
                             </RadioGroup>

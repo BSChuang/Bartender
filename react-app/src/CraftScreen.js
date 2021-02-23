@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Slider, Grid, Select, InputLabel, Typography, FormControl, MenuItem, Button, Paper, TextField } from '@material-ui/core';
 import ingredients from './ingredients.json'
 
+const DEFAULTQUANTITY = 10
+const DEFAULTINGREDIENT = 'None'
+
 function capitalize(text) {
     return text.toLowerCase()
         .split(' ')
@@ -13,20 +16,20 @@ class CraftScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            'name': '',
+            'name': DEFAULTINGREDIENT,
             'ingredients': 1,
-            'ingredient0': '',
-            'quantity0': 0,
-            'ingredient1': '',
-            'quantity1': 0,
-            'ingredient2': '',
-            'quantity2': 0,
-            'ingredient3': '',
-            'quantity3': 0,
-            'ingredient4': '',
-            'quantity4': 0,
-            'ingredient5': '',
-            'quantity5': 0
+            'ingredient0': DEFAULTINGREDIENT,
+            'quantity0': DEFAULTQUANTITY,
+            'ingredient1': DEFAULTINGREDIENT,
+            'quantity1': DEFAULTQUANTITY,
+            'ingredient2': DEFAULTINGREDIENT,
+            'quantity2': DEFAULTQUANTITY,
+            'ingredient3': DEFAULTINGREDIENT,
+            'quantity3': DEFAULTQUANTITY,
+            'ingredient4': DEFAULTINGREDIENT,
+            'quantity4': DEFAULTQUANTITY,
+            'ingredient5': DEFAULTINGREDIENT,
+            'quantity5': DEFAULTQUANTITY
         }
 
         this.ingredients = ingredients.sort()
@@ -67,11 +70,11 @@ class CraftScreen extends React.Component {
                 <div>
                     <FormControl style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <Typography id="continuous-slider" gutterBottom>
-                            Quantity (10 = ~1 ounce)
-                    </Typography>
+                            {this.state[`quantity${index}`]/10} {this.state[`quantity${index}`] == 10 ? 'ounce' : 'ounces'}
+                        </Typography>
                         <Slider
                             name={`quantity${index}`}
-                            defaultValue={50}
+                            defaultValue={DEFAULTQUANTITY}
                             aria-labelledby="discrete-slider-custom"
                             valueLabelDisplay="auto"
                             onChange={(event, val) => handleChange(`quantity${index}`, val)}
