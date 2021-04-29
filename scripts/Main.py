@@ -11,7 +11,7 @@ import glob
 import json
 import requests
 
-pinList = [11, 13, 15, 16, 18]
+pinList = [11, 13, 16, 15, 18, 29, 31, 37]
 ingredientPins = {}
 
 drinks = None
@@ -56,9 +56,11 @@ def dispense(drink):
             print('pouring')
             toPour = {ingredientPins[ingredient]:quantity for (ingredient, quantity) in drinks[drink].items()}
             gpioQ.put({'process': 'main', 'args': toPour}) # send pin:quantity (length of pour)
-            previous[lastPerson] = drink
-            with open('../previous.json', 'w') as outFile:
-                json.dump(previous, outFile)
+
+            if lastPerson is not None:
+                previous[lastPerson] = drink
+                with open('../previous.json', 'w') as outFile:
+                    json.dump(previous, outFile)
         else:
             print("Does not have all required ingredients!")
     else:
@@ -66,12 +68,12 @@ def dispense(drink):
 
 
 def parseQR(qr):
-    if qr[0] == 'g':
+    if qr[0] == 'g': # Dispense drink
         dispense(qr[1:])
 
-    elif qr[0] == 'f':
+    elif qr[0] == 'f': # Favorite
         if len(qr) > 1:
-            if lastPerson != None:
+            if lastPerson is not None:
                 print('Favoriting', qr[1:])
                 favorites[lastPerson] = qr[1:]
                 with open('../favorites.json', 'w') as outFile:
@@ -82,18 +84,31 @@ def parseQR(qr):
             if lastPerson in favorites:
                 dispense(favorites[lastPerson])
 
-    elif qr[0] == 'p':
+    elif qr[0] == 'p': # Previous
         if lastPerson != None:
             dispense(previous[lastPerson])
-    elif qr[0] == 'i':
+    elif qr[0] == 'i': # Set ingredients of machine
         global ingredientPins
 
         ingredientList = qr[1:].split('|')
         ingredientPins = {ingredientList[i]: pinList[i] for i in range(len(pinList))}
+        del ingredientPins['None']
+
+    elif qr[0] == 's': # Save new crafted drink
+        ingredientList = qr[1:].split('|')
+        drinkName = ingredientList.pop(0).lower()
+        ingredientList = [x.split(':') for x in ingredientList]
+        drinkDict = {x[0]: x[1] for x in ingredientList}
+
+        drinks[drinkName] = drinkDict
+
+        with open('../drinks.json', 'w') as outFile: # Save to drinks.json
+            json.dump(drinks, outFile)
+
 
     elif qr[0] == 'c':
         print('cleaning...')
-        gpioQ.put({'process': 'main', 'args': {pin:10 for pin in pinList}}) # clean each for 10 seconds
+        gpioQ.put({'process': 'main', 'args': {pin:5 for pin in pinList}}) # clean each for 10 seconds
 
 q = None
 gpioQ = None

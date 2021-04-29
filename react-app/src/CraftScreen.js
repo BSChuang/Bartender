@@ -16,20 +16,12 @@ class CraftScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            'name': DEFAULTINGREDIENT,
-            'ingredients': 1,
-            'ingredient0': DEFAULTINGREDIENT,
-            'quantity0': DEFAULTQUANTITY,
-            'ingredient1': DEFAULTINGREDIENT,
-            'quantity1': DEFAULTQUANTITY,
-            'ingredient2': DEFAULTINGREDIENT,
-            'quantity2': DEFAULTQUANTITY,
-            'ingredient3': DEFAULTINGREDIENT,
-            'quantity3': DEFAULTQUANTITY,
-            'ingredient4': DEFAULTINGREDIENT,
-            'quantity4': DEFAULTQUANTITY,
-            'ingredient5': DEFAULTINGREDIENT,
-            'quantity5': DEFAULTQUANTITY
+            'name': '',
+            'ingredients': 1
+        }
+        for (var i = 0; i < 8; i++) {
+            this.state[`ingredient${i}`] = DEFAULTINGREDIENT
+            this.state[`quantity${i}`] = DEFAULTQUANTITY
         }
 
         this.ingredients = ingredients.sort()
@@ -87,7 +79,7 @@ class CraftScreen extends React.Component {
     }
 
     addIngredient() {
-        if (this.state.ingredients < 6) {
+        if (this.state.ingredients < 8) {
             this.setState({
                 ingredients: this.state.ingredients + 1
             })
@@ -155,6 +147,7 @@ class CraftScreen extends React.Component {
                 </Button>
             </ Grid>
 
+            {console.log(qr)}
             <QRCode value={`s${qr}`} style={{ width: '95vw', height: '95vw', margin:'10px' }} />
         </Grid>
     }

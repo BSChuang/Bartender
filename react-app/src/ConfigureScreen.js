@@ -14,13 +14,9 @@ function capitalize(text) {
 class ConfigureScreen extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            'ingredient0': 'None',
-            'ingredient1': 'None',
-            'ingredient2': 'None',
-            'ingredient3': 'None',
-            'ingredient4': 'None',
-            'ingredient5': 'None',
+        this.state = {}
+        for (var i = 0; i < 8; i++) {
+            this.state[`ingredient${i}`] = 'None'
         }
 
         this.ingredients = ingredients.sort()
@@ -37,7 +33,7 @@ class ConfigureScreen extends React.Component {
         const handleChange = this.handleChange.bind(this);
 
         var qr = 'i'
-        for (var i = 0; i < 6; i++) {
+        for (var i = 0; i < 8; i++) {
             qr += this.state['ingredient' + i] + '|'
         }
         qr = qr.substring(0, qr.length - 1)
@@ -46,7 +42,7 @@ class ConfigureScreen extends React.Component {
 
         return <Grid container justify="center">
             {
-                [...Array(6).keys()].map(index =>
+                [...Array(8).keys()].map(index =>
                     <Grid item xs={12} style={{ padding: '10px' }}>
                         <FormControl style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <Select
@@ -66,7 +62,7 @@ class ConfigureScreen extends React.Component {
                     </Grid>)
             }
 
-            <QRCode value={qr} style={{ width: '95vw', height: '95vw', margin:'10px' }} />
+            <QRCode value={`i${qr}`} style={{ width: '95vw', height: '95vw', margin:'10px' }} />
         </Grid>
     }
 }

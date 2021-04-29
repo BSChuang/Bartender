@@ -4,6 +4,7 @@ import Menu from '@material-ui/core/Menu';
 import IconButton from '@material-ui/core/IconButton'
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '@material-ui/icons/Menu';
+import SimpleDialog from './SimpleDialog.js';
 
 export default function SimpleMenu({setScreen}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -33,7 +34,8 @@ export default function SimpleMenu({setScreen}) {
             >
                 <MenuItem onClick={(event) => handleClose(event, 'configure')}>Configure</MenuItem>
                 <MenuItem onClick={(event) => handleClose(event, 'clean')}>Clean</MenuItem>
-                <MenuItem onClick={(event) => handleClose(event, null)}>Built by Ben Chuang</MenuItem>
+                <SimpleDialog />
+                <MenuItem onClick={(event) => handleClose(event, null)}><a href='https://github.com/BSChuang/Bartender'>Github</a></MenuItem>
             </Menu>
         </div>
     );
