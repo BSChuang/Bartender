@@ -1,55 +1,26 @@
 # QRtender
-PREVIOUS IDEA:
-Facial Recognition
-Speech Recognition
-Multiprocessing for parallel face and speech recognition
-    Facial recognition in main program
+## What is QRtender?
+QRtender is a smart bartending machine which dispenses beautifully crafted cocktails using just a QR code. The QR codes are built on https://bschuang.github.io/Bartender/. (The website is built for the landscape view of a phone, so the sizes of certain objects when visited on the computer may be too large or too small)
 
-GUI for drink selection (in case speech recognition unavailable (too loud))
-    Button to save face and name
-Scrap GUI, will be hands-free
+## Features
+* Preset drinks with search by ingredient or drink name
+* Craftable drinks 
+    * Drinks are orderable by using the custom drink's name
+* New user creation 
+    * Hold QR code and user's face in camera's view to save new face
+* Favorite order
+    * Favorite a drink by pressing the heart in the bottom corner and showing QRtender face and QR code
+* Get favorite/previous
+    * If QRtender sees face, favorite or previous drink can be dispensed
+* Configure
+    * Assign drink ingredients to specific pumps
+* Clean
+    * Activates pumps for 3 seconds to clean out tubes
 
-Originally saved face when uniqueness was over a threshold, but too many false positives (i.e. saving faces when they had already been saved)
-Previously used GUI, but wanted hands-free (didn't want to invest in monitor)
+## How does it work?
+The machine itself is powered by a Raspberry Pi with a camera attachment. It reads QR codes and uses facial recognition developed by the OpenCV Python package. It is controlled and configured by scanning QR codes which are served over a React.JS web-application hosted on Github pages. Once given a drink order, the raspi uses multiprocessing to activate certain peristalic pumps for certain lengths of time, depending on the volume of liquid.
 
-CURRENT IDEA:
-Uses speech OR QR Codes to configure and decide drinks
-Facial recognition to save and load favorite drinks and get previous drink
-
-Why not bluetooth app?
-Imagine your friends are over. They want to use your fancy new machine, but they have to download an app first! That's too much work, they want a drink and they want it now!
-Going to a webpage is much more user friendly, updatable, and takes up no space on their phone.
-
-QR Code Rules:
-    Get drink: "g[drink name]"
-    Favorite drink: "f[drink name]"
-    Get favorite drink: "f"
-    Get previous drink: "p"
-
-    Set new user: "n[username]"
-
-    Set drink: "s[drink name]|[ingredient1]:[quantity1]|[ingredient2]:[quantity2]|etc"
-    Set ingredients: "i[ingredient1]|[ingredient2]|[ingredient3]|[ingredient4]|[ingredient5]|[ingredient6]"
-
-1 Green LED:
-    Turns on when face is recognized
-Yellow LED:
-    Turns on when drink is dispensing
-Red LED:
-    Turns on when error
-Yellow and red when drink is added or ingredients are configured
-All turn on when new user is added
-
-PULL drinks.json/ingredients.json from github (easiest way to keep updated) whenever loads
-Make sure to combine with saved drinks.json/ingredients to keep crafted drinks
-
-TODO:
-Custom drink: Choose drink by name (error when drink not in system)
-Filter for drink list using possible ingredients
-
-Build the actual thing 
-
-Main.py runs processes FR, SR, GUI, which all communicate with Main.py
-Send messages back and forth with {'process': [process name], 'arg': arguments}
-
-
+## What did I learn?
+* Raspberry Pi's are NOT very powerful. Heavy optimizations were required to run QR and facial recognition at an acceptable frame rate.
+* Multi-processing is useful. I used the Python multiprocessing queue package to activate the pumps individually. Yes, I could have had a timer variable running and de-activated the pumps when it exceeded the pump's quantity, but I thought this would be good practice and a more elegant solution.
+* Wood is expensive. I couldn't have done this without my friend Mark. He helped me through the process of designing the chassis of the machine, buying the wood, cutting it, and glueing it together. I learned just like programming, there is a whole process that must be completed before doing anything physical. 
