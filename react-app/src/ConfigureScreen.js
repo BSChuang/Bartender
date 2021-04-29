@@ -32,7 +32,7 @@ class ConfigureScreen extends React.Component {
         var QRCode = require('qrcode.react')
         const handleChange = this.handleChange.bind(this);
 
-        var qr = 'i'
+        var qr = ''
         for (var i = 0; i < 8; i++) {
             qr += this.state['ingredient' + i] + '|'
         }
