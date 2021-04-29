@@ -2,10 +2,18 @@
 from threading import Thread
 import cv2
 
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+import time
+# initialize the camera and grab a reference to the raw camera capture
+
 class WebcamVideoStream:
     def __init__(self, src=0):
         self.stream = cv2.VideoCapture(src)
         (self.grabbed, self.frame) = self.stream.read()
+        
+        time.sleep(1)
+
         self.stopped = False
     def start(self):
         # start the thread to read frames from the video stream

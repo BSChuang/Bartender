@@ -91,6 +91,7 @@ def parseQR(qr):
         global ingredientPins
 
         ingredientList = qr[1:].split('|')
+        print('set ingredients ', ingredientList)
         ingredientPins = {ingredientList[i]: pinList[i] for i in range(len(pinList))}
         del ingredientPins['None']
 
@@ -108,7 +109,7 @@ def parseQR(qr):
 
     elif qr[0] == 'c':
         print('cleaning...')
-        gpioQ.put({'process': 'main', 'args': {pin:5 for pin in pinList}}) # clean each for 10 seconds
+        gpioQ.put({'process': 'main', 'args': {pin:1 for pin in pinList}}) # clean each for 1 ounce
 
 q = None
 gpioQ = None
@@ -127,7 +128,7 @@ if __name__ == '__main__':
     gpioProcess = Process(target=fParallelGPIO, args=(gpioQ,))
     gpioProcess.start()
 
-    gpioQ.put({'process': 'main', 'args': 'init'})
+    gpioQ.put({'process': 'main', 'args': 'i'})
 
     personTimer = 0
 

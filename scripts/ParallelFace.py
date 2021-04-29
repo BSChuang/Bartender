@@ -7,11 +7,13 @@ import uuid
 import glob
 import json
 from WebcamVideoStream import WebcamVideoStream
+from VideoStream import PiVideoStream
 
 def fParallelFace(q):
-    #video_capture = cv2.VideoCapture(0)
+    #vs = cv2.VideoCapture(0)
+    #vs.set(cv2.CAP_PROP_FOURCC,cv2.VideoWriter_fourcc('M','J','P','G'))
     vs = WebcamVideoStream(src=0).start()
-
+    #vs = PiVideoStream().start()
     # Create arrays of known face encodings and their names
     known_face_encodings = []
     known_face_names = []
@@ -40,7 +42,12 @@ def fParallelFace(q):
         if process_this_frame % 20 == 0:
             process_this_frame = 0
             frame = vs.read()
-            small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
+            
+            small_frame = None
+            try:
+                small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
+            except:
+                continue
             rgb_small_frame = small_frame[:, :, ::-1]
 
             # Only process every other frame of video to save time
