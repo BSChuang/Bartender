@@ -30,6 +30,7 @@ def initBoard():
     GPIO.setmode(GPIO.BOARD)
     for i in pinList:
         GPIO.setup(i, GPIO.OUT)
+        GPIO.output(i, GPIO.HIGH)
 
 def stop():
     global isDone

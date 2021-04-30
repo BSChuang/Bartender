@@ -43,12 +43,12 @@ def fParallelFace(q):
             process_this_frame = 0
             frame = vs.read()
             
-            small_frame = None
+            """small_frame = None
             try:
                 small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
             except:
-                continue
-            rgb_small_frame = small_frame[:, :, ::-1]
+                continue"""
+            rgb_small_frame = frame[:, :, ::-1]
 
             # Only process every other frame of video to save time
             # QR Code reading
