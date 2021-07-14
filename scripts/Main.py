@@ -35,18 +35,21 @@ def initJSON():
     with open('../previous.json') as inFile:
         previous = json.load(inFile)
 
-    drinksURL = 'https://raw.githubusercontent.com/BSChuang/Bartender/main/react-app/src/drinks.json'
-    resp = requests.get(drinksURL)
-    newDrinks = json.loads(resp.text)
+    try:
+        drinksURL = 'https://raw.githubusercontent.com/BSChuang/Bartender/main/react-app/src/drinks.json'
+        resp = requests.get(drinksURL)
+        newDrinks = json.loads(resp.text)
 
-    # Only add drinks that are not in machine drink list (don't replace machine drink list)
-    for drink in newDrinks.keys():
-        if drink not in drinks:
-            drinks[drink] = newDrinks[drink]
+        # Only add drinks that are not in machine drink list (don't replace machine drink list)
+        for drink in newDrinks.keys():
+            if drink not in drinks:
+                drinks[drink] = newDrinks[drink]
 
-    # Save drinks
-    with open('../drinks.json', 'w') as outFile:
-        json.dump(drinks, outFile)
+        # Save drinks
+        with open('../drinks.json', 'w') as outFile:
+            json.dump(drinks, outFile)
+    except:
+        return
         
 def speak(phrase):
     engine.say(phrase)

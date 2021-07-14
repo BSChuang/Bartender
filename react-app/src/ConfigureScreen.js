@@ -41,6 +41,7 @@ class ConfigureScreen extends React.Component {
         console.log(qr)
 
         return <Grid container justify="center">
+            <QRCode value={`i${qr}`} style={{ width: '85vw', height: '85vw', margin:'2%' }} />
             {
                 [...Array(8).keys()].map(index =>
                     <Grid item xs={12} style={{ padding: '10px' }}>
@@ -62,7 +63,7 @@ class ConfigureScreen extends React.Component {
                     </Grid>)
             }
 
-            <QRCode value={`i${qr}`} style={{ width: '95vw', height: '95vw', margin:'10px' }} />
+            
         </Grid>
     }
 }
