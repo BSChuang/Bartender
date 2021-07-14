@@ -11,6 +11,7 @@ import glob
 import json
 import requests
 import pyttsx3
+import time
 
 pinList = [11, 13, 16, 15, 18, 29, 31, 37]
 engine = pyttsx3.init()
@@ -145,9 +146,10 @@ if __name__ == '__main__':
 
     gpioQ.put({'process': 'main', 'args': 'i'})
     speak("Loading")
+    time.sleep(30)
+    speak("Ready")
 
     personTimer = 0
-
     while True:
         if personTimer < 50000:
             personTimer += 1
