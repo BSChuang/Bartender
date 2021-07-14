@@ -10,8 +10,8 @@ import time
 class WebcamVideoStream:
     def __init__(self, src=0):
         self.stream = cv2.VideoCapture(src)
-        self.stream.set(3, 256)
-        self.stream.set(4, 144)
+        self.stream.set(3, 480)
+        self.stream.set(4, 270)
         (self.grabbed, self.frame) = self.stream.read()
         
         time.sleep(1)

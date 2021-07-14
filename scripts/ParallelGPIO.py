@@ -4,7 +4,7 @@ from multiprocessing import Process,Queue,Pipe
 from threading import Thread
 
 pinList = [11, 13, 16, 15, 18, 29, 31, 37]
-ounceTime = {11: 7.5, 13: 10, 16: 10, 15: 9, 18: 7.5, 29: 11, 31: 10.5, 37: 8}
+ounceTime = {11: 0.75, 13: 1, 16: 1, 15: 0.9, 18: 0.75, 29: 1.1, 31: 1.05, 37: 0.8}
 
 isDone = {pin:True for pin in pinList}
 

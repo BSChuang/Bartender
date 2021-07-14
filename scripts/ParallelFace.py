@@ -25,7 +25,7 @@ def fParallelFace(q):
             file_face_encoding = face_recognition.face_encodings(file_img)[0]
             
             known_face_encodings.append(file_face_encoding)
-            known_face_names.append(file.replace('faces\\', '').replace('.jpg', ''))
+            known_face_names.append(file.replace('faces/', '').replace('.jpg', ''))
 
     #obama_image = face_recognition.load_image_file("faces/obama.jpg")
     #obama_face_encoding = face_recognition.face_encodings(obama_image)[0]
@@ -39,7 +39,7 @@ def fParallelFace(q):
 
     newUser = None
     while True:
-        if process_this_frame % 20 == 0:
+        if process_this_frame % 10 == 0:
             process_this_frame = 0
             frame = vs.read()
             

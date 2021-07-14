@@ -10,8 +10,11 @@ import uuid
 import glob
 import json
 import requests
+import pyttsx3
 
 pinList = [11, 13, 16, 15, 18, 29, 31, 37]
+engine = pyttsx3.init()
+engine.setProperty('rate', 125)
 ingredientPins = {}
 
 drinks = None
@@ -44,6 +47,10 @@ def initJSON():
     # Save drinks
     with open('../drinks.json', 'w') as outFile:
         json.dump(drinks, outFile)
+        
+def speak(phrase):
+    engine.say(phrase)
+    engine.runAndWait()
 
 def dispense(drink):
     if drink in drinks:
@@ -54,6 +61,7 @@ def dispense(drink):
                 break
         if hasIngredients:
             print('pouring')
+            speak(f"Pouring {drink}")
             toPour = {ingredientPins[ingredient]:quantity for (ingredient, quantity) in drinks[drink].items()}
             gpioQ.put({'process': 'main', 'args': toPour}) # send pin:quantity (length of pour)
 
@@ -63,8 +71,10 @@ def dispense(drink):
                     json.dump(previous, outFile)
         else:
             print("Does not have all required ingredients!")
+            speak(f"Missing ingredients for {drink}")
     else:
         print("Drink does not exist!")
+        speak("Drink does not exist")
 
 
 def parseQR(qr):
@@ -92,6 +102,7 @@ def parseQR(qr):
 
         ingredientList = qr[1:].split('|')
         print('set ingredients ', ingredientList)
+        speak(f"Set ingredients as {','.join([ing for ing in ingredientList if ing != 'None'])}")
         ingredientPins = {ingredientList[i]: pinList[i] for i in range(len(pinList))}
         del ingredientPins['None']
 
@@ -100,8 +111,8 @@ def parseQR(qr):
         drinkName = ingredientList.pop(0).lower()
         ingredientList = [x.split(':') for x in ingredientList]
         drinkDict = {x[0]: x[1] for x in ingredientList}
-
         drinks[drinkName] = drinkDict
+        speak(f"Saved {drinkName}")
 
         with open('../drinks.json', 'w') as outFile: # Save to drinks.json
             json.dump(drinks, outFile)
@@ -109,7 +120,8 @@ def parseQR(qr):
 
     elif qr[0] == 'c':
         print('cleaning...')
-        gpioQ.put({'process': 'main', 'args': {pin:1 for pin in pinList}}) # clean each for 1 ounce
+        speak("Cleaning")
+        gpioQ.put({'process': 'main', 'args': {pin:10 for pin in pinList}}) # clean each for 1 ounce
 
 q = None
 gpioQ = None
@@ -129,18 +141,23 @@ if __name__ == '__main__':
     gpioProcess.start()
 
     gpioQ.put({'process': 'main', 'args': 'i'})
+    speak("Loading")
 
     personTimer = 0
 
     while True:
-        personTimer += 1
-        if personTimer > 50000:
+        if personTimer < 50000:
+            personTimer += 1
+        if personTimer >= 50000:
             lastPerson = None
 
         if not q.empty():
             res = q.get()
 
             if res['process'] == 'face':
+                if lastPerson != res['args']:
+                    speak(f"Hello {res['args']}")
+                    
                 lastPerson = res['args']
                 personTimer = 0
                 print('face:', res['args'])
