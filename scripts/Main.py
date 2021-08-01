@@ -31,7 +31,7 @@ def webhook():
     print(verify_token)
     if verify_token == WEBHOOK_VERIFY_TOKEN:
         if 'drink' in request.json:
-            drink_name = request.json['drink']
+            drink_name = request.json['drink'].lower()
             for possible_drink in drinks.keys():
                 if drink_name in possible_drink:
                     dispense(possible_drink)
