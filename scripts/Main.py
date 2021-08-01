@@ -13,6 +13,38 @@ import requests
 import pyttsx3
 import time
 
+import os
+from datetime import datetime, timedelta
+from flask import Flask, request, abort, jsonify
+
+# SERVER --------------------------
+WEBHOOK_VERIFY_TOKEN = 'baaartender'
+CLIENT_AUTH_TIMEOUT = 24 # in Hours
+
+app = Flask(__name__)
+
+authorised_clients = {}
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    verify_token = request.args.get('verify_token')
+    print(verify_token)
+    if verify_token == WEBHOOK_VERIFY_TOKEN:
+        if 'drink' in request.json:
+            drink_name = request.json['drink']
+            for possible_drink in drinks.keys():
+                if drink_name in possible_drink:
+                    dispense(possible_drink)
+                    return jsonify({'status':'success'}), 200
+        print(request.json)
+        return jsonify({'status':'success'}), 200
+    else:
+        return jsonify({'status':'not authorised'}), 401
+
+app.run('0.0.0.0')
+
+# SERVER --------------------------
+
 pinList = [11, 13, 16, 15, 18, 29, 31, 37]
 engine = pyttsx3.init()
 engine.setProperty('rate', 125)
