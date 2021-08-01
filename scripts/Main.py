@@ -1,7 +1,5 @@
-from ParallelSpeech import fParallelSpeech
 from ParallelFace import fParallelFace
 from ParallelGPIO import fParallelGPIO
-from ParallelServer import fParallelServer
 from multiprocessing import Process, Queue, Pipe
 
 import face_recognition
@@ -28,7 +26,6 @@ authorised_clients = {}
 @app.route('/webhook', methods=['POST'])
 def webhook():
     verify_token = request.args.get('verify_token')
-    print(verify_token)
     if verify_token == WEBHOOK_VERIFY_TOKEN:
         q.put({'process': 'assistant', 'args': request.json['drink']})
         return jsonify({'status':'success'}), 200
@@ -151,9 +148,30 @@ def parseQR(qr):
         speak("Cleaning")
         gpioQ.put({'process': 'main', 'args': {pin:10 for pin in pinList}}) # clean each for 1 ounce
 
-def readProcess(q):
+def parallelRead(q):
+    
+
+if __name__ == '__main__':
+    initJSON()
+    q = Queue()
+    gpioQ = Queue()
+
+    Process(target=app.run, kwargs=dict(host='0.0.0.0', port=5000)).start()
+
+    Process(target=fParallelFace, args=(q,)).start()
+    
+    Process(target=fParallelGPIO, args=(gpioQ,)).start()
+    gpioQ.put({'process': 'main', 'args': 'i'})
+
+    Process(target=parallelRead, args=(q,)).start()
+
+    speak("Loading")
+    time.sleep(30)
+    speak("Ready")
+
     personTimer = 0
     while True:
+        print(personTimer)
         if personTimer < 50000:
             personTimer += 1
         if personTimer >= 50000:
@@ -186,32 +204,4 @@ def readProcess(q):
                 else:
                     print("Error recognizing speech")
 
-q = None
-gpioQ = None
-if __name__ == '__main__':
-    initJSON()
-    q = Queue()
-
-    if False:
-        speechProcess = Process(target=fParallelSpeech, args=(q,))
-        speechProcess.start()
-
-    #assistantProcess = Process(target=fParallelServer, args=(q,))
-    #assistantProcess.start()
-
-    faceProcess = Process(target=fParallelFace, args=(q,))
-    faceProcess.start()
-
-    gpioQ = Queue()
-    gpioProcess = Process(target=fParallelGPIO, args=(gpioQ,))
-    gpioProcess.start()
-    gpioQ.put({'process': 'main', 'args': 'i'})
-
-    readProcess = Process(target=readProcess, args=(q,))
-    readProcess.start()
-
-    speak("Loading")
-    time.sleep(30)
-    speak("Ready")
-
-    app.run('0.0.0.0')
+    
