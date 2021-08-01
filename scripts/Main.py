@@ -14,6 +14,29 @@ import requests
 import pyttsx3
 import time
 
+import os
+from datetime import datetime, timedelta
+from flask import Flask, request, abort, jsonify
+
+WEBHOOK_VERIFY_TOKEN = 'baaartender'
+CLIENT_AUTH_TIMEOUT = 24 # in Hours
+
+app = Flask(__name__)
+
+authorised_clients = {}
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    verify_token = request.args.get('verify_token')
+    print(verify_token)
+    if verify_token == WEBHOOK_VERIFY_TOKEN:
+        q.put({'process': 'assistant', 'args': request.json['drink']})
+        return jsonify({'status':'success'}), 200
+    else:
+        return jsonify({'status':'not authorised'}), 401
+
+
+
 pinList = [11, 13, 16, 15, 18, 29, 31, 37]
 engine = pyttsx3.init()
 engine.setProperty('rate', 125)
@@ -128,31 +151,7 @@ def parseQR(qr):
         speak("Cleaning")
         gpioQ.put({'process': 'main', 'args': {pin:10 for pin in pinList}}) # clean each for 1 ounce
 
-q = None
-gpioQ = None
-if __name__ == '__main__':
-    initJSON()
-    q = Queue()
-
-    if False:
-        speechProcess = Process(target=fParallelSpeech, args=(q,))
-        speechProcess.start()
-
-    assistantProcess = Process(target=fParallelServer, args=(q,))
-    assistantProcess.start()
-
-    faceProcess = Process(target=fParallelFace, args=(q,))
-    faceProcess.start()
-
-    gpioQ = Queue()
-    gpioProcess = Process(target=fParallelGPIO, args=(gpioQ,))
-    gpioProcess.start()
-
-    gpioQ.put({'process': 'main', 'args': 'i'})
-    speak("Loading")
-    time.sleep(30)
-    speak("Ready")
-
+def readProcess(q):
     personTimer = 0
     while True:
         if personTimer < 50000:
@@ -186,3 +185,33 @@ if __name__ == '__main__':
                     #speechParser(latestSpeech, lastPerson)
                 else:
                     print("Error recognizing speech")
+
+q = None
+gpioQ = None
+if __name__ == '__main__':
+    initJSON()
+    q = Queue()
+
+    if False:
+        speechProcess = Process(target=fParallelSpeech, args=(q,))
+        speechProcess.start()
+
+    #assistantProcess = Process(target=fParallelServer, args=(q,))
+    #assistantProcess.start()
+
+    faceProcess = Process(target=fParallelFace, args=(q,))
+    faceProcess.start()
+
+    gpioQ = Queue()
+    gpioProcess = Process(target=fParallelGPIO, args=(gpioQ,))
+    gpioProcess.start()
+    gpioQ.put({'process': 'main', 'args': 'i'})
+
+    readProcess = Process(target=readProcess, args=(q,))
+    readProcess.start()
+
+    speak("Loading")
+    time.sleep(30)
+    speak("Ready")
+
+    app.run('0.0.0.0')

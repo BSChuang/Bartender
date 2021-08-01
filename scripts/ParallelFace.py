@@ -12,7 +12,7 @@ from VideoStream import PiVideoStream
 def fParallelFace(q):
     #vs = cv2.VideoCapture(0)
     #vs.set(cv2.CAP_PROP_FOURCC,cv2.VideoWriter_fourcc('M','J','P','G'))
-    vs = WebcamVideoStream(src=0).start()
+    vs = WebcamVideoStream(src=-1).start()
     #vs = PiVideoStream().start()
     # Create arrays of known face encodings and their names
     known_face_encodings = []
