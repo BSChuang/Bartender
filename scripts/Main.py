@@ -127,7 +127,7 @@ def parseQR(qr):
 
         ingredientList = qr[1:].split('|')
         print('set ingredients ', ingredientList)
-        speak(f"Set ingredients as {','.join([ing for ing in ingredientList if ing != 'None'])}")
+        speak(f"Set ingredients to {' and '.join([ing for ing in ingredientList if ing != 'None'])}")
         ingredientPins = {ingredientList[i]: pinList[i] for i in range(len(pinList))}
         del ingredientPins['None']
 
@@ -148,22 +148,20 @@ def parseQR(qr):
         speak("Cleaning")
         gpioQ.put({'process': 'main', 'args': {pin:10 for pin in pinList}}) # clean each for 1 ounce
 
-def parallelRead(q):
-    
-
 if __name__ == '__main__':
     initJSON()
     q = Queue()
     gpioQ = Queue()
 
-    Process(target=app.run, kwargs=dict(host='0.0.0.0', port=5000)).start()
+    p1 = Process(target=app.run, kwargs=dict(host='0.0.0.0', port=5000))
+    p1.start()
 
-    Process(target=fParallelFace, args=(q,)).start()
+    p2 = Process(target=fParallelFace, args=(q,))
+    p2.start()
     
-    Process(target=fParallelGPIO, args=(gpioQ,)).start()
+    p3 = Process(target=fParallelGPIO, args=(gpioQ,))
+    p3.start()
     gpioQ.put({'process': 'main', 'args': 'i'})
-
-    Process(target=parallelRead, args=(q,)).start()
 
     speak("Loading")
     time.sleep(30)
@@ -171,7 +169,6 @@ if __name__ == '__main__':
 
     personTimer = 0
     while True:
-        print(personTimer)
         if personTimer < 50000:
             personTimer += 1
         if personTimer >= 50000:
@@ -193,15 +190,22 @@ if __name__ == '__main__':
                 parseQR(res['args'])
 
             elif res['process'] == 'assistant':
-                print(res['args'])
-
-            elif res['process'] == 'speech':
-                res = res['args']
-                if res['success']:
-                    latestSpeech = res['transcription'].lower()
-                    print(f'{lastPerson} says: {latestSpeech}')
-                    #speechParser(latestSpeech, lastPerson)
-                else:
-                    print("Error recognizing speech")
+                poured = False
+                print('speech:', res['args'])
+                drink_request = res['args'].lower()
+                for possible_drink in drinks:
+                    if possible_drink in drink_request:
+                        dispense(possible_drink)
+                        poured = True
+                        continue
+                if not poured:
+                    speak(f'I dont know {possible_drink}')
+                
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            p1.terminate()
+            p2.terminate()
+            p3.terminate()
+            break
+    
 
     
